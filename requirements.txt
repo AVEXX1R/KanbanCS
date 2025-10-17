@@ -1,0 +1,8 @@
+
+Flask
+gunicorn
+python-dotenv
+pymongo
+pandas
+openpyxl
+python-decouple
