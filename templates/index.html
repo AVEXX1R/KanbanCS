@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban de Clientes | Gestão Interna</title>
+    <!-- Incluindo Tailwind CSS via CDN para simplicidade -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+    <div id="app" class="min-h-screen flex flex-col">
+        
+        <!-- Header -->
+        <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+            <h1 class="text-2xl font-bold text-gray-800">Kanban de Clientes</h1>
+            <div class="flex space-x-4">
+                <button id="export-csv-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md">
+                    Exportar CSV
+                </button>
+                <label for="file-upload" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer transition duration-150 ease-in-out shadow-md">
+                    Upload Planilha (.xlsx/.csv)
+                </label>
+                <input id="file-upload" type="file" accept=".xlsx, .csv" class="hidden">
+            </div>
+        </header>
+
+        <!-- Main Kanban Board -->
+        <main class="flex-grow p-6 overflow-x-auto">
+            <div id="kanban-board" class="flex space-x-6 h-full items-start">
+                <!-- Colunas serão inseridas aqui pelo JavaScript -->
+            </div>
+        </main>
+
+        <!-- Modal de Detalhes do Cliente -->
+        <div id="client-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 transition-opacity duration-300">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 transform transition-all duration-300 scale-95">
+                <h2 id="modal-client-name" class="text-3xl font-bold text-gray-800 mb-4 flex items-center"></h2>
+                
+                <div class="space-y-4">
+                    <!-- Média de Envio -->
+                    <div class="border-b pb-2">
+                        <p class="text-sm font-medium text-gray-500">Média de Envio:</p>
+                        <p id="modal-media-envio" class="text-lg font-semibold text-gray-700"></p>
+                    </div>
+
+                    <!-- Situação de Recuperação (Slider) -->
+                    <div>
+                        <label for="recuperacao-slider" class="block text-sm font-medium text-gray-700 mb-1">Situação de Recuperação (<span id="recuperacao-value">0</span>%):</label>
+                        <input type="range" id="recuperacao-slider" min="0" max="100" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
+                    </div>
+
+                    <!-- Qualidade dos Lotes (Dropdown) -->
+                    <div>
+                        <label for="qualidade-select" class="block text-sm font-medium text-gray-700 mb-1">Qualidade dos Lotes:</label>
+                        <select id="qualidade-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="Baixa">Baixa</option>
+                            <option value="Média">Média</option>
+                            <option value="Alta">Alta</option>
+                        </select>
+                    </div>
+
+                    <!-- Recorrência (Dropdown) -->
+                    <div>
+                        <label for="recorrencia-select" class="block text-sm font-medium text-gray-700 mb-1">Recorrência:</label>
+                        <select id="recorrencia-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="Mensal">Mensal</option>
+                            <option value="Sem fluxo definido">Sem fluxo definido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botões do Modal -->
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="modal-close-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                        Voltar
+                    </button>
+                    <button id="modal-save-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
